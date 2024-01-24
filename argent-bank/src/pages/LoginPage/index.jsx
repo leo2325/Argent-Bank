@@ -7,7 +7,6 @@ import LoginForm from '../../components/LoginForm';
 function Login () {
     return (
             <main className='bg-dark'>
-                {/* Returns form component */}
                 < LoginForm />
             </main>
         

@@ -1,6 +1,12 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from "../actions/type.actions";
+import { combineReducers, configureStore } from "@reduxjs/toolkit"
+import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from "../actions/authActions";
 
-/* Initial state of authentication */
+let state = {
+    value: null,
+    list: []
+  };
+
+/* état initial d'authentification */
 const initialState = {
     status: "VOID",
     isConnected: false,
@@ -8,29 +14,40 @@ const initialState = {
     error: null,
 }
 
-export const authReducer = (state = initialState, action) => {
+  const reducer = ( state = initialState, action ) => {
+
     switch (action.type) {
+    
         case LOGIN_SUCCESS:
             return {
-                ...state,
+                ...state, 
                 status: "SUCCEEDED",
                 isConnected: true,
                 token: action.payload,
                 error: null
             }
         
-        case LOGIN_FAIL: {
+        case LOGIN_FAIL:
             return {
                 ...state,
                 status: "FAILED",
                 isConnected: false,
                 error: action.payload
             }
-        }  
+
         case LOGOUT: {
             return initialState;
-        }  
+        }
+
         default:
             return state;
     }
-}
+  }
+  
+  export const store = configureStore(
+    {
+      preloadedState: state,
+      reducer: combineReducers({
+      })
+    }
+  )

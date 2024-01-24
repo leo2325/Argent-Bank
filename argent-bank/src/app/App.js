@@ -2,6 +2,9 @@ import React from 'react';
 
 import { Routes, Route } from 'react-router-dom';
 
+import { Provider } from 'react-redux'
+import { store } from './store';
+
 import './App.css';
 
 import Nav from '../components/Nav';
@@ -17,7 +20,7 @@ function App() {
 
   return (
       <div className="App">
-
+        <Provider store={store}>
           <Nav />
           
           <Routes>
@@ -27,7 +30,7 @@ function App() {
           </Routes>
           
           <Footer />
-        
+        </Provider>
       </div>
   );
 }
