@@ -14,4 +14,4 @@ export const updateUsername = (username) => {
         type: EDIT_USERNAME,
         payload: username,
     }
-}
+} 
