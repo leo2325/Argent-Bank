@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { loginFailed, loginSuccess } from '../../actions/authActions.jsx';
-import { isValidEmail, isValidPassword } from '../../utils/regex.jsx';
+import { isValidEmail } from '../../utils/regex.jsx';
 
 import { useStore } from "react-redux";
 
@@ -54,11 +54,13 @@ function LoginForm() {
         }
     }
 
-
     const store = useStore();
+    // eslint-disable-next-line
+    const [isConnected, setIsConnected] = useState(true);
+    store.subscribe(() => setIsConnected(store.getState().isConnected))
 
     return (
-        <main class="main bg-dark">
+        <main className="main bg-dark">
             <section className="sign-in-content">
                 <i className="fa fa-user-circle sign-in-icon"></i>
                 <h1>Sign In</h1>

@@ -1,53 +1,78 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit"
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from "../actions/authActions";
+import { GET_USERPROFILE, EDIT_USERNAME } from "../actions/userActions";
 
-let state = {
-    value: null,
-    list: []
-  };
-
-/* état initial d'authentification */
-const initialState = {
+// Auth reducer
+const authInitialState = {
     status: "VOID",
     isConnected: false,
     token: null,
     error: null,
-}
+};
 
-  const reducer = ( state = initialState, action ) => {
-
+const authReducer = (state = authInitialState, action) => {
     switch (action.type) {
-    
         case LOGIN_SUCCESS:
             return {
-                ...state, 
+                ...state,
                 status: "SUCCEEDED",
                 isConnected: true,
                 token: action.payload,
-                error: null
-            }
-        
+                error: null,
+            };
         case LOGIN_FAIL:
             return {
                 ...state,
                 status: "FAILED",
                 isConnected: false,
-                error: action.payload
-            }
-
+                error: action.payload,
+            };
         case LOGOUT: {
-            return initialState;
+            return authInitialState;
         }
-
         default:
             return state;
     }
-  }
-  
-  export const store = configureStore(
-    {
-      preloadedState: state,
-      reducer: combineReducers({
-      })
+};
+
+// User reducer
+const userInitialState = {
+    status: 'VOID',
+    userData: {}
+};
+
+const userReducer = (state = userInitialState, action) => {
+    switch (action.type) {
+        case GET_USERPROFILE:
+            return {
+                ...state,
+                status: 'SUCCEEDED',
+                userData: action.payload,
+            };
+        case EDIT_USERNAME:
+            return {
+                ...state,
+                status: "MODIFIED",
+                userData: {
+                    ...state.userData,
+                    username: action.payload,
+                },
+            };
+        case LOGOUT: {
+            return userInitialState;
+        }
+        default:
+            return state;
     }
-  )
+};
+
+// Combine reducers
+const rootReducer = combineReducers({
+    auth: authReducer,
+    user: userReducer,
+});
+
+// Create store
+export const store = configureStore({
+    reducer: rootReducer,
+});
