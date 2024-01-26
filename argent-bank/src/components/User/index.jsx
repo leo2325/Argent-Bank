@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUsername } from '../../actions/userActions.jsx';
+import { userProfile, updateUsername } from '../../actions/userActions.jsx';
 import { isValidName } from "../../utils/regex.jsx";
 import '../../style/main.css';
 
@@ -19,7 +19,7 @@ function User () {
     const dispatch = useDispatch();
 
     /* Fonction de mise à jour asynchrone du nom d'utilisateur */
-    const handleSubmitUsername = async (event) => {
+    const handleSubmitNewName = async (event) => {
         event.preventDefault();
         if (!isValidName(userName)) {
             setErrorMessage("Invalid username");
@@ -35,13 +35,19 @@ function User () {
                     'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({userName}),
+                body: JSON.stringify({firstName}),
+                body: JSON.stringify({lastName}),
             });
             if (response.ok) {
                 const data = await response.json();
                 const username = data.body.userName;
+                const firstName = data.body.firstName;
+                const lastName = data.body.lastName;
 
                 /* Vérifier que la réponse à la requête est bien récupérée  -  console.log(données) */
                 dispatch(updateUsername(username));
+                dispatch(updateUsername(firstname));
+                dispatch(updateUsername(lastname));
                 setDisplay(!display);
             } else {
                 console.log("Invalid Fields")
@@ -67,41 +73,40 @@ function User () {
                 </div>
                 :
                 <div>
-                    <h2>Edit user info</h2>
-                    <form>
-                        <div className="edit-input">
-                            <label htmlFor="username">User name:</label>
-                            <input
-                                type="text"
-                                id="username"
-                                defaultValue={userData.username}
-                                onChange={(event) => setUserName(event.target.value)}
-                            />
+                    <h2>Welcome back</h2>
+                    
+                    <form id="editUserForm">
+                        
+                        <div className="edit-inputs">
+                            <div className="edit-input">
+                                <label htmlFor="firstname"></label>
+                                <input
+                                    type="text"
+                                    id="firstname" 
+                                    defaultValue={userData.firstName}
+                                    placeholder={userData.firstName}
+                                />
+                            </div>
+                            <div className="edit-input">
+                                <label htmlFor="lastname"></label>
+                                <input
+                                    type="text"
+                                    id="lastname" 
+                                    defaultValue={userData.lastName}
+                                    placeholder={userData.lasttName}
+                                />
+                            </div>
                         </div>
-                        <div className="edit-input">
-                            <label htmlFor="firstname">First name:</label>
-                            <input
-                                type="text"
-                                id="firstname" 
-                                defaultValue={userData.firstname}
-                                disabled={true}
-                            />
-                        </div>
-                        <div className="edit-input">
-                            <label htmlFor="lastname">Last name:</label>
-                            <input
-                                type="text"
-                                id="lastname" 
-                                defaultValue={userData.lastname}
-                                disabled={true}
-                            />
-                        </div>
+
                         <div className="buttons">
-                            <button className="edit-username-button" onClick={handleSubmitUsername}>Save</button>
+                            <button className="edit-username-button" onClick={handleSubmitNewName}>Save</button>
                             <button className="edit-username-button" onClick={() => setDisplay(!display)}>Cancel</button>
                         </div>
+
                         {errorMessage && <p className="error-message">{errorMessage}</p>}
+                    
                     </form>
+
                 </div>
             }
         </div>
