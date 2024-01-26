@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userProfile, updateUsername } from '../../actions/userActions.jsx';
+import { userProfile, updateFirstname, updateLastname } from '../../actions/userActions.jsx';
 import { isValidName } from "../../utils/regex.jsx";
 import '../../style/main.css';
 
@@ -9,10 +9,15 @@ function User () {
     /* Met à jour les données utilisateur sur la page de profil à partir de State Redux */
     const token = useSelector((state) => state.auth.token);
     const userData = useSelector((state) => state.user.userData);
+
     /* Gère l'apparence du formulaire de modification du nom d'utilisateur */
     const [display, setDisplay] = useState(true);
+
+    /* Récupère le prénom d'utilisateur */
+     const [firstName, setFirstName] = useState('');
     /* Récupère le nom d'utilisateur */
-    const [userName, setUserName] = useState('');
+    const [lastName, setLastName] = useState('');
+
     /* Handle error message */
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -35,19 +40,14 @@ function User () {
                     'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({userName}),
-                body: JSON.stringify({firstName}),
-                body: JSON.stringify({lastName}),
             });
             if (response.ok) {
                 const data = await response.json();
-                const username = data.body.userName;
-                const firstName = data.body.firstName;
-                const lastName = data.body.lastName;
-
+                const firstname = data.body.firstName;
+                const lastname = data.body.lastName;
                 /* Vérifier que la réponse à la requête est bien récupérée  -  console.log(données) */
-                dispatch(updateUsername(username));
-                dispatch(updateUsername(firstname));
-                dispatch(updateUsername(lastname));
+                dispatch(updateFirstName(firstname));
+                dispatch(updateLastName(lastname));
                 setDisplay(!display);
             } else {
                 console.log("Invalid Fields")
