@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from "../actions/authActions";
-import { GET_USERPROFILE, EDIT_USERNAME, EDIT_FIRSTNAME, EDIT_LASTNAME } from "../actions/userActions";
+import { GET_USERPROFILE, EDIT_USERNAME } from "../actions/userActions";
 
 // Auth reducer
 const authInitialState = {
@@ -58,24 +58,6 @@ const userReducer = (state = userInitialState, action) => {
                     username: action.payload,
                 },
             };
-            case EDIT_FIRSTNAME:
-                return {
-                    ...state,
-                    status: "MODIFIED",
-                    userData: {
-                        ...state.userData,
-                        username: action.payload,
-                    },
-                };
-            case EDIT_LASTNAME:
-                return {
-                    ...state,
-                    status: "MODIFIED",
-                    userData: {
-                    ...state.userData,
-                    username: action.payload,
-                    },
-                };
         case LOGOUT: {
             return userInitialState;
         }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userProfile, updateFirstname, updateLastname } from '../../actions/userActions.jsx';
+import { updateUsername } from '../../actions/userActions.jsx';
 import { isValidName } from "../../utils/regex.jsx";
 import '../../style/main.css';
 
@@ -9,22 +9,17 @@ function User () {
     /* Met à jour les données utilisateur sur la page de profil à partir de State Redux */
     const token = useSelector((state) => state.auth.token);
     const userData = useSelector((state) => state.user.userData);
-
     /* Gère l'apparence du formulaire de modification du nom d'utilisateur */
     const [display, setDisplay] = useState(true);
-
-    /* Récupère le prénom d'utilisateur */
-     const [firstName, setFirstName] = useState('');
     /* Récupère le nom d'utilisateur */
-    const [lastName, setLastName] = useState('');
-
+    const [userName, setUserName] = useState('');
     /* Handle error message */
     const [errorMessage, setErrorMessage] = useState('');
 
     const dispatch = useDispatch();
 
     /* Fonction de mise à jour asynchrone du nom d'utilisateur */
-    const handleSubmitNewName = async (event) => {
+    const handleSubmitUsername = async (event) => {
         event.preventDefault();
         if (!isValidName(userName)) {
             setErrorMessage("Invalid username");
@@ -43,11 +38,10 @@ function User () {
             });
             if (response.ok) {
                 const data = await response.json();
-                const firstname = data.body.firstName;
-                const lastname = data.body.lastName;
+                const username = data.body.userName;
+
                 /* Vérifier que la réponse à la requête est bien récupérée  -  console.log(données) */
-                dispatch(updateFirstName(firstname));
-                dispatch(updateLastName(lastname));
+                dispatch(updateUsername(username));
                 setDisplay(!display);
             } else {
                 console.log("Invalid Fields")

@@ -44,7 +44,7 @@ function LoginForm() {
                 if (rememberMe) {
                     localStorage.setItem("token", token);
                 }
-                navigate('/user.html');
+                navigate('/profile');
             } else {
                 const error = "Incorrect email/password"
                 dispatch(loginFailed(error));
@@ -72,7 +72,6 @@ function LoginForm() {
                             id='username' 
                             value={email}
                             onChange={(event) => setEmail(event.target.value)}
-                            autoComplete='current-password'
                         />
                     </div>
                     <div className="input-wrapper">
@@ -82,7 +81,6 @@ function LoginForm() {
                             id='password' 
                             value={password}
                             onChange={(event) => setPassword(event.target.value)}
-                            autoComplete='current-password'
                         />
                     </div>
                     <div className="input-remember">
