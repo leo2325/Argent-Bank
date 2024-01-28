@@ -1,24 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUsername } from '../../actions/userActions.jsx';
+import { getUserProfile, updateUsername } from '../../actions/userActions';
 import { isValidName } from "../../utils/regex.jsx";
 import '../../style/main.css';
 
-function User () {
+async function getUserProfileData(token) {
+    try {
+        const response = await fetch('http://localhost:3001/api/v1/user/profile', {
+            method: 'POST',
+            headers: {
+                'accept': 'application/json',
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: ''
+        });
 
-    /* Met à jour les données utilisateur sur la page de profil à partir de State Redux */
+        if (!response.ok) {
+            throw new Error("Impossible de récupérer le profil de l'utilisateur.");
+        }
+
+        const userData = await response.json();
+        console.log(userData);
+        return userData;
+
+    } catch (error) {
+        console.error("Erreur lors de la récupération du profil de l'utilisateur:", error);
+        throw error;
+    }
+}
+
+function User() {
     const token = useSelector((state) => state.auth.token);
     const userData = useSelector((state) => state.user.userData);
-    /* Gère l'apparence du formulaire de modification du nom d'utilisateur */
     const [display, setDisplay] = useState(true);
-    /* Récupère le nom d'utilisateur */
     const [userName, setUserName] = useState('');
-    /* Handle error message */
     const [errorMessage, setErrorMessage] = useState('');
-
     const dispatch = useDispatch();
 
-    /* Fonction de mise à jour asynchrone du nom d'utilisateur */
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const userProfileData = await getUserProfileData(token);
+                dispatch(getUserProfile(userProfileData));
+            } catch (error) {
+                console.error("Error fetching user profile data:", error);
+            }
+        }
+        fetchData();
+    }, [dispatch, token]);
+
     const handleSubmitUsername = async (event) => {
         event.preventDefault();
         if (!isValidName(userName)) {
@@ -34,87 +65,68 @@ function User () {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
                 },
-                body: JSON.stringify({userName}),
+                body: JSON.stringify({ userName }),
             });
             if (response.ok) {
                 const data = await response.json();
                 const username = data.body.userName;
 
-                /* Vérifier que la réponse à la requête est bien récupérée  -  console.log(données) */
                 dispatch(updateUsername(username));
                 setDisplay(!display);
             } else {
                 console.log("Invalid Fields")
             }
-
         } catch (error) {
             console.error(error);
         }
     }
 
+    console.log("UserData:", userData);
+
     return (
-
         <main className="main bg-dark">
-
             <div className="header">
-            { display ? 
-                <div>
-                    <h2>Welcome back 
-                        <br />
-                        {userData.firstName} {userData.lastName} !
-                    </h2>
-                    <button className="edit-button" onClick={() => setDisplay(!display)}>Edit Name</button>
-                </div>
-                :
-                <div>
-                    <h2>Welcome back</h2>
-                    
-                    <form id="editUserForm">
-                        
-                        <div className="edit-inputs">
-                            <div className="edit-input">
-                                <label htmlFor="firstname"></label>
-                                <input
-                                    type="text"
-                                    id="firstname" 
-                                    defaultValue={userData.firstName}
-                                    placeholder={userData.firstName}
-                                />
+                {display ?
+                    <div>
+                        <h2>Welcome back 
+                            <br />
+                            {userData.body.firstName} {userData.body.lastName} !
+                        </h2>
+                        <button className="edit-button" onClick={() => setDisplay(!display)}>Edit Name</button>
+                    </div>
+                    :
+                    <div>
+                        <h2>Welcome back</h2>
+                        <form id="editUserForm">
+                            <div className="edit-inputs">
+                                <div className="edit-input">
+                                    <label htmlFor="firstname">First Name:</label>
+                                    <input
+                                        type="text"
+                                        id="firstname"
+                                        defaultValue={userData.firstName}
+                                        onChange={(e) => setUserName(e.target.value)}
+                                    />
+                                </div>
+                                <div className="edit-input">
+                                    <label htmlFor="lastname">Last Name:</label>
+                                    <input
+                                        type="text"
+                                        id="lastname"
+                                        defaultValue={userData.lastName}
+                                        onChange={(e) => setUserName(e.target.value)}
+                                    />
+                                </div>
                             </div>
-                            <div className="edit-input">
-                                <label htmlFor="lastname"></label>
-                                <input
-                                    type="text"
-                                    id="lastname" 
-                                    defaultValue={userData.lastName}
-                                    placeholder={userData.lasttName}
-                                />
+                            <div className="buttons">
+                                <button className="edit-username-button" onClick={handleSubmitUsername}>Save</button>
+                                <button className="edit-username-button" onClick={() => setDisplay(!display)}>Cancel</button>
                             </div>
-                        </div>
-
-                        <div className="buttons">
-                            <button className="edit-username-button" onClick={handleSubmitNewName}>Save</button>
-                            <button className="edit-username-button" onClick={() => setDisplay(!display)}>Cancel</button>
-                        </div>
-
-                        {errorMessage && <p className="error-message">{errorMessage}</p>}
-                    
-                    </form>
-
-                </div>
-            }
-        </div>
-
-
-
-
-
-
-
-
-
-
-
+                            {errorMessage && <p className="error-message">{errorMessage}</p>}
+                        </form>
+                    </div>
+                }
+            </div>
 
             <h2 className="sr-only">Accounts</h2>
             <section className="account">

@@ -2,7 +2,7 @@ export const GET_USERPROFILE = "GET_USERPROFILE"
 export const EDIT_USERNAME = "EDIT_USERNAME"
 
 /* User data recovery action */
-export const userProfile = (userData) => {
+export const getUserProfile = (userData) => {
     return {
         type: GET_USERPROFILE,
         payload: userData,

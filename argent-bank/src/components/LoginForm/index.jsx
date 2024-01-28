@@ -9,7 +9,6 @@ import { useStore } from "react-redux";
 import '../../style/main.css';
 
 function LoginForm() {
-
     /* Permet de récupérer les données saisies par l'utilisateur dans le formulaire */    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
@@ -58,6 +57,22 @@ function LoginForm() {
     // eslint-disable-next-line
     const [isConnected, setIsConnected] = useState(true);
     store.subscribe(() => setIsConnected(store.getState().isConnected))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     return (
         <main className="main bg-dark">
