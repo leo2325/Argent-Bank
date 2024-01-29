@@ -17,7 +17,11 @@ async function getUserProfileData(token) {
         });
 
         if (!response.ok) {
-            throw new Error("Impossible de récupérer le profil de l'utilisateur.");
+            if (response.status === 401) {
+                throw new Error("Authentication failed. Please check your credentials.");
+            } else {
+                throw new Error("Failed to retrieve user profile data.");
+            }
         }
 
         const userData = await response.json();
@@ -25,7 +29,7 @@ async function getUserProfileData(token) {
         return userData;
 
     } catch (error) {
-        console.error("Erreur lors de la récupération du profil de l'utilisateur:", error);
+        console.error("Error retrieving user profile data:", error);
         throw error;
     }
 }
@@ -45,6 +49,7 @@ function User() {
                 dispatch(getUserProfile(userProfileData));
             } catch (error) {
                 console.error("Error fetching user profile data:", error);
+                setErrorMessage(error.message);
             }
         }
         fetchData();
@@ -86,11 +91,12 @@ function User() {
     return (
         <main className="main bg-dark">
             <div className="header">
+                {errorMessage && <p className="error-message">{errorMessage}</p>}
                 {display ?
                     <div>
                         <h2>Welcome back 
                             <br />
-                            {userData.body.firstName} {userData.body.lastName} !
+                            {userData.firstName} {userData.lastName} !
                         </h2>
                         <button className="edit-button" onClick={() => setDisplay(!display)}>Edit Name</button>
                     </div>
@@ -122,7 +128,6 @@ function User() {
                                 <button className="edit-username-button" onClick={handleSubmitUsername}>Save</button>
                                 <button className="edit-username-button" onClick={() => setDisplay(!display)}>Cancel</button>
                             </div>
-                            {errorMessage && <p className="error-message">{errorMessage}</p>}
                         </form>
                     </div>
                 }
