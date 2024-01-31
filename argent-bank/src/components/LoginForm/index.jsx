@@ -61,10 +61,6 @@ function LoginForm() {
 
 
 
-
-
-
-
     return (
         <main className="main bg-dark">
             <section className="sign-in-content">
