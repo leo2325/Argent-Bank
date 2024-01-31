@@ -16,7 +16,7 @@ function Nav() {
   const firstname = useSelector((state) => state.user.userData.firstname);
 
   const dispatch = useDispatch();
-    const navigate = useNavigate();
+  const navigate = useNavigate();
     
     const logoutHandler = () => {
         dispatch(logout());
@@ -25,16 +25,12 @@ function Nav() {
         navigate('/');
     }
 
-
   return (
     
     <nav className="main-nav">
+      
       <Link to="/index.html" className="main-nav-logo">
-        <img
-          className="main-nav-logo-image"
-          src= { argentBankLogo }
-          alt="Argent Bank Logo"
-        />
+        <img className="main-nav-logo-image" src= { argentBankLogo } alt="Argent Bank Logo" />
       </Link>
       
       {isConnected ? (
