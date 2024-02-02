@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProfile, updateUsername } from "../../actions/userActions";
-import { isValidName } from "../../utils/regex.jsx";
 import "../../style/main.css";
 
 async function getUserProfileData(token) {
@@ -34,7 +33,7 @@ async function getUserProfileData(token) {
     console.log(lastName);
 
     return UserData;
-    
+
 
   } catch (error) {
     console.error("Error retrieving user profile data:", error);
@@ -43,14 +42,10 @@ async function getUserProfileData(token) {
 }
 
 
-
-
-
 function User() {
   const token = useSelector((state) => state.auth.token);
   const userData = useSelector((state) => state.user.userData);
   const [display, setDisplay] = useState(true);
-  const [userName, updateUserName] = useState('');
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -71,19 +66,8 @@ function User() {
     fetchData();
   }, [dispatch, token]);
 
-
-
-
-
-
   const handleSubmitUsername = async (event) => {
     event.preventDefault();
-    if (!isValidName(userName)) {
-      setErrorMessage("Invalid username");
-      return;
-    } else {
-      setErrorMessage("");
-    }
     try {
       const response = await fetch("http://localhost:3001/api/v1/user/profile", {
         method: "PUT",
@@ -91,7 +75,7 @@ function User() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ userName }),
+        body: JSON.stringify({ firstName, lastName }),
       });
       if (response.ok) {
         const data = await response.json();
@@ -117,7 +101,7 @@ function User() {
           <div>
             <h2>
               Welcome back <br />
-              {userData.firstName} {userData.lastName} !
+              {userData?.body?.firstName} {userData?.body?.lastName} !
             </h2>
             <button className="edit-button" onClick={() => setDisplay(!display)}>
               Edit Name
@@ -133,8 +117,8 @@ function User() {
                   <input
                     type="text"
                     id="firstname"
-                    defaultValue={userData.firstName}
                     onChange={(e) => setFirstName(e.target.value)}
+                    placeholder={userData.body?.firstName}
                   />
                 </div>
                 <div className="edit-input">
@@ -142,23 +126,50 @@ function User() {
                   <input
                     type="text"
                     id="lastname"
-                    defaultValue={userData.lastName}
                     onChange={(e) => setLastName(e.target.value)}
+                    placeholder={userData.body?.lastName}
                   />
                 </div>
               </div>
               <div className="buttons">
-                <button className="edit-username-button" onClick={handleSubmitUsername}>
-                  Save
-                </button>
-                <button className="edit-username-button" onClick={() => setDisplay(!display)}>
-                  Cancel
-                </button>
+                <button className="edit-username-button" onClick={ handleSubmitUsername }> Save </button>
+                <button className="edit-username-button" onClick={() => setDisplay(!display)}> Cancel </button>
               </div>
             </form>
           </div>
         )}
       </div>
+      <h2 className="sr-only">Accounts</h2>
+            <section className="account">
+                <div className="account-content-wrapper">
+                    <h3 className="account-title">Argent Bank Checking (x8349)</h3>
+                    <p className="account-amount">$2,082.79</p>
+                    <p className="account-amount-description">Available Balance</p>
+                </div>
+                <div className="account-content-wrapper cta">
+                    <button className="transaction-button">View transactions</button>
+                </div>
+            </section>
+            <section className="account">
+                <div className="account-content-wrapper">
+                    <h3 className="account-title">Argent Bank Savings (x6712)</h3>
+                    <p className="account-amount">$10,928.42</p>
+                    <p className="account-amount-description">Available Balance</p>
+                </div>
+                <div className="account-content-wrapper cta">
+                    <button className="transaction-button">View transactions</button>
+                </div>
+            </section>
+            <section className="account">
+                <div className="account-content-wrapper">
+                    <h3 className="account-title">Argent Bank Credit Card (x8349)</h3>
+                    <p className="account-amount">$184.30</p>
+                    <p className="account-amount-description">Current Balance</p>
+                </div>
+                <div className="account-content-wrapper cta">
+                    <button className="transaction-button">View transactions</button>
+                </div>
+            </section>
     </main>
   );
 }

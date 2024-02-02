@@ -1,4 +1,5 @@
-import { GET_USERPROFILE, EDIT_USERNAME, LOGOUT } from "../actions/userActions.jsx"
+import { GET_USERPROFILE, EDIT_USERNAME } from "../actions/userActions.jsx"
+import { LOGOUT } from "../actions/authActions.jsx"
 
 /* Initial user state */
 const initialState = {
@@ -6,7 +7,7 @@ const initialState = {
     userData: {}
 }
 
-export const userReducer = (state = initialState, action ) => {
+export const userReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_USERPROFILE:
             return {
@@ -14,20 +15,19 @@ export const userReducer = (state = initialState, action ) => {
                 status: 'SUCCEEDED',
                 userData: action.payload
             }
-        case EDIT_USERNAME: 
+        case EDIT_USERNAME:
             return {
                 ...state,
                 status: "MODIFIED",
                 userData: {
                     ...state.userData,
                     username: action.payload
-                } 
-            } 
+                }
+            }
         case LOGOUT: {
-            return initialState;  
-        }   
+            return initialState;
+        }
         default:
-            return state;    
+            return state;
     }
 }
-   
