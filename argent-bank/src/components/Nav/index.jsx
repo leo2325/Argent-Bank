@@ -1,20 +1,16 @@
 import React from 'react';
-
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-
-import { getUserProfile } from '../../actions/userActions'
 import { logout } from '../../actions/authActions';
-
 import '../../style/main.css';
 import argentBankLogo from '../../assets/img/argentBankLogo.png';
 import arrowRightFromBracket from '../../assets/svg/arrowRightFromBracket.svg';
 import circleUser from '../../assets/svg/circleUser.svg';
+import { getUserProfileData } from "../../services/UserService";
+
+getUserProfileData();
 
 function Nav() {
-  // Récupération des données
-  const isConnected = useSelector((state) => state.auth.token);
-  const firstName = useSelector((state) => state.user.userData.firstName);
 
   // Initialisation des hooks Redux
   const dispatch = useDispatch();
@@ -41,7 +37,7 @@ function Nav() {
         <div className='connected'>
           <Link to='/profile'>
             <img src={circleUser} className="icon" alt="user circle icon" />
-            <p>{firstName}</p>
+            <p>{userData?.body?.firstName}</p>
           </Link>
           <Link to='/index.html' onClick={logoutHandler}>
             <img src={arrowRightFromBracket} className="icon" alt="arrow icon" />
