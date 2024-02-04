@@ -9,9 +9,9 @@ export const getUserProfile = (userData) => {
     }
 }
 /* Username update action */
-export const updateUsername = (username) => {
+export const updateUsername = (firstName, lastName) => {
     return {
         type: EDIT_USERNAME,
-        payload: username,
+        payload: { firstName, lastName },
     }
-} 
+}

@@ -15,7 +15,6 @@ async function getUserProfileData(token) {
       },
       body: "",
     });
-
     if (!response.ok) {
       if (response.status === 401) {
         throw new Error("Authentication failed. Please check your credentials.");
@@ -23,7 +22,7 @@ async function getUserProfileData(token) {
         throw new Error("Failed to retrieve user profile data.");
       }
     }
-
+    
     const UserData = await response.json();
     const firstName = UserData.body.firstName;
     const lastName = UserData.body.lastName;
@@ -83,6 +82,8 @@ function User() {
 
         dispatch(updateUsername(updatedUserName));
         setDisplay(!display);
+
+        
       } else {
         console.log("Invalid Fields");
       }
@@ -139,6 +140,10 @@ function User() {
           </div>
         )}
       </div>
+
+
+
+      
       <h2 className="sr-only">Accounts</h2>
             <section className="account">
                 <div className="account-content-wrapper">
