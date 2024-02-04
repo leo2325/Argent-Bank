@@ -61,7 +61,6 @@ function User() {
   }
 
   console.log("userData:", userData);
-
   return (
     <main className="main bg-dark">
       <div className="header">

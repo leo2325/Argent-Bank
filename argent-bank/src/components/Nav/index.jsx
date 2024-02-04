@@ -23,10 +23,14 @@ function Nav() {
     localStorage.clear();
     navigate('/');
   }
-
+  
   // Instructions de débogage pour afficher les valeurs dans la console
-  console.log("firstName:", firstName);
-  console.log("isConnected:", isConnected);
+  //console.log("firstName:", firstName);
+  //console.log("isConnected:", isConnected);
+
+  // isConnected not defined
+  // --> LoginForm.jsx : const [isConnected, setIsConnected] = useState(true);
+  //                     store.subscribe(() => setIsConnected(store.getState().isConnected))
 
   return (
     <nav className="main-nav">
