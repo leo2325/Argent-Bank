@@ -1,16 +1,20 @@
 import React from 'react';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+
+import { getUserProfile } from '../../actions/userActions'
 import { logout } from '../../actions/authActions';
+
 import '../../style/main.css';
 import argentBankLogo from '../../assets/img/argentBankLogo.png';
 import arrowRightFromBracket from '../../assets/svg/arrowRightFromBracket.svg';
 import circleUser from '../../assets/svg/circleUser.svg';
-import { getUserProfileData } from "../../services/UserService";
-
-getUserProfileData();
 
 function Nav() {
+  // Récupération des données
+  const isConnected = useSelector((state) => state.auth.token);
+  const firstName = useSelector((state) => state.user.userData.firstName);
 
   // Initialisation des hooks Redux
   const dispatch = useDispatch();
@@ -22,15 +26,12 @@ function Nav() {
     sessionStorage.clear();
     localStorage.clear();
     navigate('/');
-  }
-  
-  // Instructions de débogage pour afficher les valeurs dans la console
-  //console.log("firstName:", firstName);
-  //console.log("isConnected:", isConnected);
 
-  // isConnected not defined
-  // --> LoginForm.jsx : const [isConnected, setIsConnected] = useState(true);
-  //                     store.subscribe(() => setIsConnected(store.getState().isConnected))
+  }
+
+  // Instructions de débogage pour afficher les valeurs dans la console
+  console.log("firstName:", firstName);
+  console.log("isConnected:", isConnected);
 
   return (
     <nav className="main-nav">
@@ -41,7 +42,7 @@ function Nav() {
         <div className='connected'>
           <Link to='/profile'>
             <img src={circleUser} className="icon" alt="user circle icon" />
-            <p>{userData?.body?.firstName}</p>
+            <p>{firstName}</p>
           </Link>
           <Link to='/index.html' onClick={logoutHandler}>
             <img src={arrowRightFromBracket} className="icon" alt="arrow icon" />

@@ -23,7 +23,7 @@ export const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 status: "FAILED",
-                isConnected: false,
+                isConnected: false, 
                 error: action.payload
             }
         }

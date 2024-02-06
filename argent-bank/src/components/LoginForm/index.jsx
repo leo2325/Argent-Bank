@@ -35,7 +35,6 @@ function LoginForm() {
             });
             if (response.ok) {
                 const data = await response.json();
-                
                 /* Vérifier que la réponse à la requête est bien récupérée  -  console.log(données) */
                 const token = data.body.token;
                 dispatch(loginSuccess(token));
@@ -57,7 +56,7 @@ function LoginForm() {
     // eslint-disable-next-line
     const [isConnected, setIsConnected] = useState(true);
     store.subscribe(() => setIsConnected(store.getState().isConnected))
-
+ 
 
 
 

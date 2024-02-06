@@ -325,10 +325,6 @@ html {
     flex-direction: row;
   }
 
-  .edit-input {
-    display: flex;
-  }
-
   #firstname, #lastname {
     width: 200px;
     height: 35px;
