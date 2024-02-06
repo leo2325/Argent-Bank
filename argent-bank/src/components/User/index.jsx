@@ -34,10 +34,12 @@ function User () {
             const data = await response.json();
             
            
+            /* 
             const updatedFirstName = userData.firstname;
             const updatedLastName = userData.lastname;
             dispatch(updateFirstName(updatedFirstName), updateLastName(updatedLastName));
-            
+            */
+           
             setDisplay(!display);
           } else {
             console.log("Invalid Fields");
@@ -47,8 +49,6 @@ function User () {
         }
       }
       console.log("userData:", userData);
-      console.log(firstName);
-      console.log(lastName);
   
   return (
       <div className="header">
