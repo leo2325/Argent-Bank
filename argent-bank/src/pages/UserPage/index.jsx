@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getUserProfile } from '../../actions/userActions.jsx';
+import { getUserProfile } from '../../redux/actions/userActions.jsx';
 
 import Account from '../../components/Account';
 import AccountCardData from '../../data/AccountCardData.json';

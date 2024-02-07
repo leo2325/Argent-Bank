@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Routes, Route } from 'react-router-dom';
-
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { Provider } from 'react-redux'
 import { store } from './store';
 
@@ -16,7 +16,7 @@ import UserPage from '../pages/UserPage';
 
 
 
-function App() {
+export default function App() {
 
   return (
       <div className="App">
@@ -34,5 +34,3 @@ function App() {
       </div>
   );
 }
-
-export default App;

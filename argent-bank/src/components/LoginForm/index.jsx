@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { loginFailed, loginSuccess } from '../../actions/authActions.jsx';
+import { loginFailed, loginSuccess } from '../../redux/actions/authActions.jsx';
 import { isValidEmail } from '../../utils/regex.jsx';
 
 import { useStore } from "react-redux";
