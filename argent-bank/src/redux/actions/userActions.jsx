@@ -34,9 +34,7 @@ export const updateLastName = (lastName) => {
         payload: { lastName },
     }
 }
-
-
-/* lastName update action */
+/* userData update action */
 export const updateUserData = (userData) => {
     return {
         type: EDIT_USERDATA,

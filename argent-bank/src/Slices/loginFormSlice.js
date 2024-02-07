@@ -1,7 +1,40 @@
-/*import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import authService from "../services/authService.js";
 
+const initialState = {
+    status: "VOID",
+    isConnected: false,
+    token: null,
+    error: null,
+}
 
- Authent
+export const createLoginForm = createAsyncThunk(
+    "LoginForm/create",
+    async ({ token, message }) => {
+      const res = await authService.create({ "token", "message" });
+      return res.data;
+    }
+  );
+
+export const loginFormSlice = createSlice({
+    name: 'loginForm',
+    initialState,
+    reducers: {
+        authReducer
+    },
+    extraReducers: {
+
+    }
+});
+
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAIL = "LOGIN_FAIL";
+export const LOGOUT = "LOGOUT";
+
+export default loginFormSlice.reducer;
+
+/* Authentication actions 
+
 export const loginSuccess = (token) => {
     return {
         type: LOGIN_SUCCESS,
@@ -19,8 +52,9 @@ export const logout = () => {
         type: LOGOUT,
     }
 } 
+*/
 
-/* Authentification reducer */
+/* Authentification reducer 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOGIN_SUCCESS:
@@ -47,20 +81,4 @@ const authReducer = (state = initialState, action) => {
             return state;
     }
 }
-
-export const loginFormSlice = createSlice({
-    name: 'loginForm',
-    initialState,
-    reducers: {
-        authReducer
-    },
-    extraReducers: {
-
-    }
-});
-
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-export const LOGIN_FAIL = "LOGIN_FAIL";
-export const LOGOUT = "LOGOUT";
-
-export default loginFormSlice.reducer;
+*/
