@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+
 import { useSelector, useDispatch } from 'react-redux';
 import { getUserProfile } from '../../redux/actions/userActions.jsx';
 
@@ -11,6 +13,7 @@ import '../../style/index.css';
 function UserProfile () {
     const token = useSelector((state) => state.auth.token);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     /* Fonction asynchrone qui récupère les données utilisateur et les met à jour avec useEffect */
     useEffect(() => {
@@ -47,7 +50,10 @@ function UserProfile () {
                 };
             };
             userData();
-        }
+        } else {
+            navigate("/Login");
+        } 
+
     }, [dispatch, token]);
 
     return (

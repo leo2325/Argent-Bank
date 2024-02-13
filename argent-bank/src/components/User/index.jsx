@@ -32,13 +32,13 @@ function User () {
           });
           if (response.ok) {
             const data = await response.json();
-            
            
-            /* 
-            const updatedFirstName = userData.firstname;
-            const updatedLastName = userData.lastname;
-            dispatch(updateFirstName(updatedFirstName), updateLastName(updatedLastName));
-            */
+
+            const updatedFirstName = data.body.firstName;
+            const updatedLastName = data.body.lastName;
+            dispatch(updateFirstName(updatedFirstName));
+            dispatch(updateLastName(updatedLastName));
+
            
             setDisplay(!display);
           } else {

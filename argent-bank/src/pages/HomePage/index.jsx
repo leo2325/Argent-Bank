@@ -1,24 +1,21 @@
 import React from 'react';
 import '../../style/main.css';
-
 import Banner from '../../components/Banner';
 import FeatureItem from '../../components/FeatureItem';
-
 import FeaturesItemData from '../../data/FeaturesItemData.json';
-
 import iconChat from '../../assets/img/icon-chat.png';
 import iconMoney from '../../assets/img/icon-money.png';
 import iconSecurity from '../../assets/img/icon-security.png';
 
 /* Home page */
 function HomePage () {
-
+    
     const imageData = {
         "icon-chat.webp": iconChat,
         "icon-money.webp": iconMoney,
         "icon-security.webp": iconSecurity
     }
-
+   
     return (
         <main>
             <Banner />

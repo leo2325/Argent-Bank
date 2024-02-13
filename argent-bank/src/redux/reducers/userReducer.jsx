@@ -1,4 +1,4 @@
-import { GET_USERPROFILE, EDIT_USERNAME, EDIT_FIRSTNAME, EDIT_LASTNAME, EDIT_USERDATA } from "../actions/userActions.jsx"
+import { GET_USERPROFILE, EDIT_FIRSTNAME, EDIT_LASTNAME } from "../actions/userActions.jsx"
 import { LOGOUT } from "../actions/authActions.jsx"
 
 /* Initial user state */
@@ -15,22 +15,13 @@ export const userReducer = (state = initialState, action) => {
                 status: 'SUCCEEDED',
                 userData: action.payload
             }
-        case EDIT_USERNAME:
-            return {
-                ...state,
-                status: "MODIFIED",
-                userData: {
-                    ...state.userData,
-                    username: action.payload
-                }
-            }
         case EDIT_FIRSTNAME:
             return {
                 ...state,
                 status: "MODIFIED",
                 userData: {
                     ...state.userData,
-                    firstname: action.payload
+                    firstname: action.payload.firstName
                 }
             }
         case EDIT_LASTNAME:
@@ -39,7 +30,7 @@ export const userReducer = (state = initialState, action) => {
                 status: "MODIFIED",
                 userData: {
                     ...state.userData,
-                    lastname: action.payload
+                    lastname: action.payload.lastName
                 }
             }
         case LOGOUT: {

@@ -14,7 +14,7 @@ import circleUser from '../../assets/svg/circleUser.svg';
 function Nav() {
   // Récupération des données
   const isConnected = useSelector((state) => state.auth.token);
-  const firstName = useSelector((state) => state.user.userData.firstName);
+  const firstName = useSelector((state) => state.user.userData.firstname);
 
   // Initialisation des hooks Redux
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ function Nav() {
 
   return (
     <nav className="main-nav">
-      <Link to="/index.html" className="main-nav-logo">
+      <Link to="/" className="main-nav-logo">
         <img className="main-nav-logo-image" src={argentBankLogo} alt="Argent Bank Logo" />
       </Link>
       {isConnected ? (
@@ -44,14 +44,14 @@ function Nav() {
             <img src={circleUser} className="icon" alt="user circle icon" />
             <p>{firstName}</p>
           </Link>
-          <Link to='/index.html' onClick={logoutHandler}>
+          <Link to='/' onClick={logoutHandler}>
             <img src={arrowRightFromBracket} className="icon" alt="arrow icon" />
             <p>Sign out</p>
           </Link>
         </div>
       ) : (
         <div className='not-connected'>
-          <Link to='/sign-in.html'>
+          <Link to='/login'>
             <img src={circleUser} className="icon" alt="user circle icon" />
             <p>Sign In</p>
           </Link>
