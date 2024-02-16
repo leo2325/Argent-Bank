@@ -1,3 +1,8 @@
+// Ce fichier swagger n'est pas à prendre en compte pour le développement.
+// Les chemin spécifiés ne sont valables que dans le cas où il serait possible pour l'utilisateur d'ajouter plusieurs notes à une transaction.
+// La description n'étant pas clair, j'ai opté pour l'option où il serait possible d'ajouter une note par transaction
+// A éclaircir lors de la réunion.
+
 swagger: '2.0'
 info:
   title: Bank Argent API documentation
